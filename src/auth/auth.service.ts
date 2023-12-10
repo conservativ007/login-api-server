@@ -1,18 +1,58 @@
-import { Injectable } from '@nestjs/common'
+import {
+	ConflictException,
+	Injectable,
+	NotFoundException
+} from '@nestjs/common'
 import { SignUpAuthDto } from './dto/signup-auth.dto'
 import { LoginAuthDto } from './dto/login-auth.dto'
+import { PrismaService } from 'src/prisma.service'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class AuthService {
-	signup(createAuthDto: SignUpAuthDto) {
-		return 'This action adds a new auth'
+	constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+
+	async getTokens(userId: number, name: string) {
+		const at = await this.jwtService.signAsync(
+			{ userId, name },
+			{
+				secret: process.env.JWT_SECRET_KEY,
+				expiresIn: '6h'
+			}
+		)
+		return { accessToken: at }
 	}
 
-	login(loginAuthDto: LoginAuthDto) {
-		return `This action returns all auth`
+	async signup(createAuthDto: SignUpAuthDto) {
+		const isUserExist = await this.prisma.user.findFirst({
+			where: {
+				username: createAuthDto.username
+			}
+		})
+
+		if (isUserExist !== null) {
+			throw new ConflictException('User already exists')
+		}
+
+		return await this.prisma.user.create({ data: createAuthDto })
 	}
 
-	findAll() {
-		return `This action returns all auth`
+	async login(loginAuthDto: LoginAuthDto) {
+		const isUserExist = await this.prisma.user.findFirst({
+			where: {
+				username: loginAuthDto.username,
+				password: loginAuthDto.password
+			}
+		})
+
+		if (isUserExist === null) {
+			throw new NotFoundException('User not found')
+		}
+
+		return await this.getTokens(isUserExist.id, isUserExist.name)
+	}
+
+	async findAll() {
+		return await this.prisma.user.findMany()
 	}
 }
