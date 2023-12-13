@@ -20,6 +20,6 @@ Technology:
 The project was divided into frontend and backend, this part is backend, frontend is available at the following addres  https://github.com/conservativ007/login-api-frontend
 
 ### How can you use this ?
-#### You can just downlad the docker-compose.yml file from the root of this project and then run the next command 'docker-compose up'.
+#### You can just downlad this repo with the next command `git clone https://github.com/conservativ007/login-api-server.git` and then run the next command 'docker-compose up'.
 
 p.s. Remember you must have Docker running
