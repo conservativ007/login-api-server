@@ -20,7 +20,7 @@ export class AuthService {
 				expiresIn: '6h'
 			}
 		)
-		return { accessToken: at }
+		return at
 	}
 
 	async signup(createAuthDto: SignUpAuthDto) {
@@ -31,7 +31,7 @@ export class AuthService {
 		})
 
 		if (isUserExist !== null) {
-			throw new ConflictException('User already exists')
+			throw new ConflictException(['User already exists'])
 		}
 
 		return await this.prisma.user.create({ data: createAuthDto })
@@ -46,10 +46,15 @@ export class AuthService {
 		})
 
 		if (isUserExist === null) {
-			throw new NotFoundException('User not found')
+			throw new NotFoundException(['User not found'])
 		}
 
-		return await this.getTokens(isUserExist.id, isUserExist.name)
+		const token = await this.getTokens(isUserExist.id, isUserExist.name)
+
+		return {
+			name: isUserExist.name,
+			accessToken: token
+		}
 	}
 
 	async findAll() {
