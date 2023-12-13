@@ -16,3 +16,10 @@ Technology:
 - React for the frontend
 - Postgres as a database
 - Use docker compose to deploy the frontend, backend and postgres
+
+The project was divided into frontend and backend, this part is backend, frontend is available at the following addres  https://github.com/conservativ007/login-api-frontend
+
+### How can you use this ?
+#### You can just downlad the docker-compose.yml file from the root of this project and then run the next command 'docker-compose up'.
+
+p.s. Remember you must have Docker running
