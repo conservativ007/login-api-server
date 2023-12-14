@@ -62,7 +62,7 @@ export class AuthService {
 			loginAuthDto.password,
 			isUserExist.password
 		)
-		if (!passwordMatches) throw new ForbiddenException('Access Denied')
+		if (!passwordMatches) throw new ForbiddenException(['Access Denied'])
 
 		const token = await this.getTokens(isUserExist.id, isUserExist.name)
 
