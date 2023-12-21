@@ -1,28 +1,22 @@
 version: '3.8'
 services:
-  # nest-api:
-  #   image: conservativ/nestjs-api-server:1.0.2
-  #   # build:
-  #   #   context: .
-  #   #   dockerfile: Dockerfile
-  #   ports:
-  #     - 4000:4000
-  #   command: sh -c "npx prisma migrate dev --name init && npm run start:prod"
-  #   depends_on:
-  #     - postgres
-  #   env_file:
-  #     - .env
+  nest-api:
+    image: conservativ/nestjs-api-server:1.0.3
+    ports:
+      - 4000:4000
+    command: sh -c "npx prisma migrate dev --name init && npm run start:prod"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
 
-  # react-app:
-  #   # build:
-  #   #   context: 'C:\Users\Conserva\Desktop\develop2023\test-tasks\user-login'
-  #   #   dockerfile: 'C:\Users\Conserva\Desktop\develop2023\test-tasks\user-login\Dockerfile'
-  #   image: conservativ/nestjs-api-frontend:1.0.1
-  #   ports:
-  #     - 3000:3000
-  #   command: npm run start
-  #   depends_on:
-  #     - nest-api
+  react-app:
+    image: conservativ/nestjs-api-frontend:1.0.2
+    ports:
+      - 3000:3000
+    command: npm run start
+    depends_on:
+      - nest-api
 
   postgres:
     image: postgres:13

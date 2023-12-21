@@ -24,6 +24,11 @@ The project was divided into frontend and backend, this part is backend, fronten
 2. navigate to the project folder and then run the next command `docker-compose up`.
 3. After starting the project, type `http://localhost:3000` in your browser.
 
+AccessToken time is set to 1 minute, refreshToken time is set to 7 days, after successful login you will be redirected to /home page and you can click on refresh button if accessToken time is about to expire then refresh function will be triggered and accessToken and refreshToken token pair will be updated, also you can refresh the page and if accessToken time is up to date then you will stay on /home page.
+
+Token validity check is implemented on the server.
+
+
 ![signup](/src/images/signup.png)
 ![login](/src/images/login.png)
 ![home](/src/images/home.png)
